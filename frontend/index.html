@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Volunteer Board</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4 bg-light">
+  <div class="container">
+    <h1 class="mb-4">Water Shortage Reporter</h1>
+
+   <!-- Status Update Form -->
+<form id="statusUpdateForm" class="mb-4">
+  <h4>Add a Status Update</h4>
+  <div class="row">
+    <div class="col-md-4 mb-2">
+      <input class="form-control" type="number" id="report_id" placeholder="Report ID" required />
+    </div>
+    <div class="col-md-4 mb-2">
+      <input class="form-control" type="text" id="status" placeholder="Status (e.g. Pending, Resolved)" required />
+    </div>
+    <div class="col-md-12 mb-3">
+      <textarea class="form-control" id="note" rows="3" placeholder="Status Note" required></textarea>
+    </div>
+    <div class="col-md-12">
+      <button type="submit" class="btn btn-primary">Submit Update</button>
+    </div>
+  </div>
+</form>
+
+    <hr class="my-4" />
+
+
+        <!-- Tabs Navigation -->
+    <ul class="nav nav-tabs" id="dataTabs" role="tablist">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#locations">Locations</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#reports">Reports</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#status_updates">Status Updates</a></li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content mt-3">
+      
+      <!-- Locations Tab -->
+      <div class="tab-pane fade show active" id="locations">
+        <table id="locationstable" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Region</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Reports Tab -->
+      <div class="tab-pane fade" id="reports">
+        <table id="reportstable" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Location ID</th>
+              <th>User Contact</th>
+              <th>Issue Type</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Status Updates Tab -->
+      <div class="tab-pane fade" id="status_updates">
+        <table id="statustable" class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Report ID</th>
+              <th>Status</th>
+              <th>Note</th>
+              <th>Timestamp</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+  document.getElementById('statusUpdateForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const report_id = document.getElementById('report_id').value;
+  const status = document.getElementById('status').value;
+  const note = document.getElementById('note').value;
+
+  try {
+    await fetch('https://expert-carnival-x5wv69jx547xc9pqw-6008.app.github.dev/status_updates', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ report_id, status, note })
+    });
+
+    alert("Status update submitted successfully!");
+    document.getElementById('statusUpdateForm').reset();
+  } catch (err) {
+    alert("Error submitting status update: " + err.message);
+  }
+});
+</script>
+
+
+  <script src="tables.js"></script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
